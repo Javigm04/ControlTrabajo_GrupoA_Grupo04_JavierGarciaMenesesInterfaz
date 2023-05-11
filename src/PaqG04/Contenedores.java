@@ -1,3 +1,5 @@
+//Javier García Meneses
+//Grupo: A, G04
 package PaqG04;
 
 import javax.swing.*;
@@ -34,11 +36,12 @@ public class Contenedores extends JFrame{
     private JRadioButton nHub0;
     private JRadioButton nHub1;
     private JRadioButton nHub2;
+    private JButton botonBuscarContenedor;
     private Puerto Valencia;
 
     Contenedores(){
         setTitle("Contenedores");
-        setSize(1050,750);
+        setSize(1100,750);
         setDefaultCloseOperation(JInternalFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setContentPane(Contenedores);
@@ -76,7 +79,7 @@ public class Contenedores extends JFrame{
 
                 Contenedor contenedor=new Contenedor(idCampo,pesoCampo,paisCampo,aduanasCampo,prioridad,descripcionCampo,empresaEnviaCampo,empresaRecibeCampo);
                 textPane1.setText(Valencia.apilar(contenedor));
-                //Borramos los campos (preguntar mañana en clase)
+                //Borramos los campos
                 id.setText("");
                 Tpeso.setText("");
                 prioridad1.setSelected(false);
@@ -110,6 +113,7 @@ public class Contenedores extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 //Para mostrar los datos de un contenedor, cogemos el id del campo Id y llamamos a la función del hub
                 int idCampo = Integer.parseInt(id.getText());
+                //Cojo el hub del que quiero buscar el contenedor con una id específica
                 int nHub=2;
                 if(nHub0.isSelected()){
                     nHub=0;
@@ -128,6 +132,7 @@ public class Contenedores extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 //Para calcular el número de contenedores de un país, cogemos un país del combo y llamamos a la función
                 //del hub.
+                //Cojo el hub del que quiero calcular el número de contenedores de un determinado país
                 int nHub=2;
                 if(nHub0.isSelected()){
                     nHub=0;
@@ -145,6 +150,7 @@ public class Contenedores extends JFrame{
             public void mouseClicked(MouseEvent e) {
                 //Paso columna string a int
                 int columnaCampo=Integer.parseInt(Tcolumna.getText());
+                //Cojo el hub del que quiero desapilar un contenedor
                 int nHub=2;
                 if(nHub0.isSelected()){
                     nHub=0;
@@ -225,6 +231,23 @@ public class Contenedores extends JFrame{
                     nHub1.setSelected(false);
                     nHub0.setSelected(false);
                 }
+            }
+        });
+        //Añadimos listener para el nuevo botón
+        botonBuscarContenedor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int campoPrioridad=3;       //Si no se pulsa ningún botón de prioridad, se coge prioridad 3 por defecto
+                if(prioridad1.isSelected()){
+                    campoPrioridad=1;       //Si el botón de prioridad 1 está pulsado, se coge prioridad 1
+                }else if(prioridad2.isSelected()){
+                    campoPrioridad=2;       //Si el botón de prioridad 2 está pulsado, se coge prioridad 2
+                }
+                textPane1.setText(Valencia.BuscarContenedoresPrioridad(campoPrioridad));        //Llamamos a la función con el campoPrioridad como argumento y lo que devuelva lo pondrá en el text pane
+                prioridad1.setSelected(false);
+                prioridad2.setSelected(false);
+                prioridad3.setSelected(false);
+                //Hacemos que ningún botón esté pulsado al acabar la función
             }
         });
     }
